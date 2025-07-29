@@ -72,6 +72,7 @@ async function handleAuthChange(event) {
         userEmailSpan.textContent = session.user.email;
         userIdSpan.textContent = session.user.id;
 
+        console.log('🔑 사용자 로그인 상태, fetchTodos 호출');
         fetchTodos();
     } else {
         // User is logged out
@@ -151,6 +152,7 @@ async function signOut() {
 }
 
 async function fetchTodos() {
+    console.log('🔍 fetchTodos 호출됨');
     todosList.innerHTML = ''; // Clear existing todos
     const { data: todos, error } = await supabaseClient
         .from('todos')
@@ -161,6 +163,9 @@ async function fetchTodos() {
         console.error('Error fetching todos:', error.message);
         return;
     }
+
+    console.log('📊 DB에서 가져온 todos 개수:', todos.length);
+    console.log('📊 DB 데이터:', todos);
 
     todos.forEach(todo => {
         const li = document.createElement('li');
@@ -181,7 +186,9 @@ async function fetchTodos() {
         };
         li.appendChild(deleteBtn);
         todosList.appendChild(li);
+        console.log('➕ Todo 항목 추가됨:', todo.task);
     });
+    console.log('✅ fetchTodos 완료, 화면에 표시된 항목 수:', todosList.children.length);
 }
 
 async function addTodo(task) {
