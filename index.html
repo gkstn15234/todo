@@ -1,49 +1,166 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Supabase Auth & Data App</title>
+    <title>TaskFlow - 스마트 할 일 관리</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Supabase App</h1>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-tasks"></i>
+                    <h1>TaskFlow</h1>
+                </div>
+                <div class="user-menu" id="user-menu" style="display: none;">
+                    <div class="user-info">
+                        <img src="https://via.placeholder.com/32/4F46E5/ffffff?text=U" alt="User" class="user-avatar">
+                        <span id="user-email-header"></span>
+                    </div>
+                    <button id="signout-btn" class="signout-btn">
+                        <i class="fas fa-sign-out-alt"></i>
+                        로그아웃
+                    </button>
+                </div>
+            </div>
+        </header>
 
-        <div id="auth-section">
-            <h2>계정 로그인</h2>
-            <div id="message" class="message"></div>
-            <form id="auth-form">
-                <input type="email" id="email" placeholder="이메일을 입력하세요" required>
-                <input type="password" id="password" placeholder="비밀번호 (최소 6자)" minlength="6" required>
-                <button type="submit" id="signup-btn">
-                    <span class="btn-text">회원가입</span>
-                    <span class="loading" style="display: none;">가입 중...</span>
-                </button>
-                <button type="submit" id="signin-btn">
-                    <span class="btn-text">로그인</span>
-                    <span class="loading" style="display: none;">로그인 중...</span>
-                </button>
-            </form>
-            <button id="signout-btn" style="display: none;">로그아웃</button>
-        </div>
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Auth Section -->
+            <div id="auth-section" class="auth-section">
+                <div class="auth-container">
+                    <div class="auth-header">
+                        <i class="fas fa-tasks auth-icon"></i>
+                        <h2>TaskFlow에 오신 것을 환영합니다</h2>
+                        <p>스마트한 할 일 관리로 더 생산적인 하루를 만들어보세요</p>
+                    </div>
+                    
+                    <div id="message" class="message"></div>
+                    
+                    <form id="auth-form" class="auth-form">
+                        <div class="input-group">
+                            <i class="fas fa-envelope input-icon"></i>
+                            <input type="email" id="email" placeholder="이메일 주소" required>
+                        </div>
+                        <div class="input-group">
+                            <i class="fas fa-lock input-icon"></i>
+                            <input type="password" id="password" placeholder="비밀번호 (최소 6자)" minlength="6" required>
+                        </div>
+                        
+                        <div class="auth-buttons">
+                            <button type="submit" id="signin-btn" class="btn btn-primary">
+                                <span class="btn-text">로그인</span>
+                                <span class="loading" style="display: none;">
+                                    <i class="fas fa-spinner fa-spin"></i> 로그인 중...
+                                </span>
+                            </button>
+                            <button type="submit" id="signup-btn" class="btn btn-secondary">
+                                <span class="btn-text">회원가입</span>
+                                <span class="loading" style="display: none;">
+                                    <i class="fas fa-spinner fa-spin"></i> 가입 중...
+                                </span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
 
-        <div id="user-info-section" style="display: none;">
-            <h2>User Info</h2>
-            <p>Welcome, <span id="user-email"></span>!</p>
-            <p>User ID: <span id="user-id"></span></p>
-        </div>
+            <!-- Dashboard Section -->
+            <div id="dashboard-section" class="dashboard-section" style="display: none;">
+                <!-- Welcome Banner -->
+                <div class="welcome-banner">
+                    <div class="welcome-content">
+                        <h2>안녕하세요, <span id="user-name">사용자</span>님!</h2>
+                        <p class="current-date" id="current-date"></p>
+                    </div>
+                    <div class="stats">
+                        <div class="stat-item">
+                            <i class="fas fa-check-circle"></i>
+                            <div>
+                                <span class="stat-number" id="completed-count">0</span>
+                                <span class="stat-label">완료</span>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fas fa-clock"></i>
+                            <div>
+                                <span class="stat-number" id="pending-count">0</span>
+                                <span class="stat-label">진행중</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-        <div id="data-section" style="display: none;">
-            <h2>Todos</h2>
-            <form id="todo-form">
-                <input type="text" id="todo-input" placeholder="Add a new todo" required>
-                <button type="submit">Add Todo</button>
-            </form>
-            <ul id="todos-list">
-                <!-- Todos will be loaded here -->
-            </ul>
-        </div>
+                <!-- Add Todo Section -->
+                <div class="add-todo-section">
+                    <form id="todo-form" class="todo-form">
+                        <div class="todo-input-group">
+                            <div class="input-with-icon">
+                                <i class="fas fa-plus input-icon"></i>
+                                <input type="text" id="todo-input" placeholder="새로운 할 일을 입력하세요..." required>
+                            </div>
+                            
+                            <div class="time-inputs">
+                                <div class="time-input-group">
+                                    <label for="start-time">시작 시간</label>
+                                    <input type="time" id="start-time" step="300">
+                                </div>
+                                <div class="time-input-group">
+                                    <label for="end-time">종료 시간</label>
+                                    <input type="time" id="end-time" step="300">
+                                </div>
+                                <div class="priority-group">
+                                    <label for="priority">우선순위</label>
+                                    <select id="priority">
+                                        <option value="low">낮음</option>
+                                        <option value="medium" selected>보통</option>
+                                        <option value="high">높음</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary add-btn">
+                            <i class="fas fa-plus"></i>
+                            <span class="btn-text">할 일 추가</span>
+                            <span class="loading" style="display: none;">
+                                <i class="fas fa-spinner fa-spin"></i> 추가 중...
+                            </span>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Todos Section -->
+                <div class="todos-section">
+                    <div class="section-header">
+                        <h3><i class="fas fa-list"></i> 할 일 목록</h3>
+                        <div class="filter-buttons">
+                            <button class="filter-btn active" data-filter="all">전체</button>
+                            <button class="filter-btn" data-filter="pending">진행중</button>
+                            <button class="filter-btn" data-filter="completed">완료</button>
+                        </div>
+                    </div>
+                    
+                    <div class="todos-container">
+                        <div id="todos-list" class="todos-list">
+                            <!-- Todos will be loaded here -->
+                        </div>
+                        
+                        <div id="empty-state" class="empty-state" style="display: none;">
+                            <i class="fas fa-check-double"></i>
+                            <h4>모든 할 일을 완료했습니다!</h4>
+                            <p>새로운 할 일을 추가해보세요.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
     </div>
 
     <!-- Supabase CDN -->
