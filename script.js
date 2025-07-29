@@ -185,15 +185,22 @@ async function fetchTodos() {
 }
 
 async function addTodo(task) {
-    const { data, error } = await supabaseClient
-        .from('todos')
-        .insert([{ task: task }]);
+    try {
+        const { data, error } = await supabaseClient
+            .from('todos')
+            .insert([{ task: task }]);
 
-    if (error) {
-        console.error('Error adding todo:', error.message);
-    } else {
-        todoInput.value = ''; // Clear input
-        fetchTodos(); // Re-fetch todos after adding
+        if (error) {
+            console.error('Error adding todo:', error.message);
+            showMessage(`할 일 추가 실패: ${error.message}`, 'error');
+        } else {
+            console.log('Todo 추가 성공');
+            todoInput.value = ''; // Clear input
+            fetchTodos(); // Re-fetch todos after adding
+        }
+    } catch (err) {
+        console.error('Todo 추가 네트워크 에러:', err);
+        showMessage('네트워크 오류로 할 일을 추가할 수 없습니다.', 'error');
     }
 }
 
@@ -231,9 +238,29 @@ signoutBtn.addEventListener('click', signOut);
 
 todoForm.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const task = todoInput.value;
-    if (task) {
+    const task = todoInput.value.trim();
+    const submitButton = todoForm.querySelector('button[type="submit"]');
+    
+    if (!task) {
+        showMessage('할 일을 입력해 주세요.', 'error');
+        return;
+    }
+    
+    // 중복 제출 방지
+    if (submitButton.disabled) {
+        return;
+    }
+    
+    // 버튼 비활성화
+    submitButton.disabled = true;
+    submitButton.textContent = '추가 중...';
+    
+    try {
         await addTodo(task);
+    } finally {
+        // 버튼 활성화
+        submitButton.disabled = false;
+        submitButton.textContent = 'Add Todo';
     }
 });
 
