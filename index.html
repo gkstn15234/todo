@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supabase Auth & Data App</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Supabase App</h1>
+
+        <div id="auth-section">
+            <h2>계정 로그인</h2>
+            <form id="auth-form">
+                <input type="email" id="email" placeholder="Email" required>
+                <input type="password" id="password" placeholder="Password" required>
+                <button type="submit" id="signup-btn">Sign Up</button>
+                <button type="submit" id="signin-btn">Sign In</button>
+            </form>
+            <button id="signout-btn" style="display: none;">Sign Out</button>
+        </div>
+
+        <div id="user-info-section" style="display: none;">
+            <h2>User Info</h2>
+            <p>Welcome, <span id="user-email"></span>!</p>
+            <p>User ID: <span id="user-id"></span></p>
+        </div>
+
+        <div id="data-section" style="display: none;">
+            <h2>Todos</h2>
+            <form id="todo-form">
+                <input type="text" id="todo-input" placeholder="Add a new todo" required>
+                <button type="submit">Add Todo</button>
+            </form>
+            <ul id="todos-list">
+                <!-- Todos will be loaded here -->
+            </ul>
+        </div>
+    </div>
+
+    <!-- Supabase CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="script.js"></script>
+</body>
+</html>
