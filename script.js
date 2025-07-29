@@ -88,26 +88,39 @@ async function handleAuthChange(event) {
 
 async function signUp(email, password) {
     try {
-        const { data, error } = await supabaseClientClient.auth.signUp({
+        console.log('회원가입 시도 시작:', { email, url: SUPABASE_URL });
+        
+        const { data, error } = await supabaseClient.auth.signUp({
             email: email,
             password: password,
         });
         
+        console.log('Supabase 응답:', { data, error });
+        
         if (error) {
+            console.error('회원가입 에러:', error);
             showMessage(`회원가입 실패: ${error.message}`, 'error');
         } else {
-            showMessage('회원가입 성공! 이메일을 확인해 주세요.', 'success');
+            console.log('회원가입 성공');
+            showMessage('회원가입 성공! 로그인해 주세요.', 'success');
             emailInput.value = '';
             passwordInput.value = '';
         }
     } catch (err) {
-        showMessage('네트워크 오류가 발생했습니다. 다시 시도해 주세요.', 'error');
+        console.error('네트워크 에러 상세:', err);
+        if (err.name === 'TypeError' && err.message.includes('fetch')) {
+            showMessage('네트워크 연결 실패: Supabase 서버에 접근할 수 없습니다.', 'error');
+        } else if (err.message.includes('CORS')) {
+            showMessage('CORS 오류: 도메인 설정을 확인해 주세요.', 'error');
+        } else {
+            showMessage(`오류 발생: ${err.message}`, 'error');
+        }
     }
 }
 
 async function signIn(email, password) {
     try {
-        const { data, error } = await supabaseClientClient.auth.signInWithPassword({
+        const { data, error } = await supabaseClient.auth.signInWithPassword({
             email: email,
             password: password,
         });
