@@ -47,7 +47,14 @@
     </div>
 
     <!-- Supabase CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.3/dist/umd/supabase.js"></script>
+    <script>
+        // Supabase 로딩 확인
+        if (typeof supabase === 'undefined') {
+            console.error('Supabase 라이브러리를 로드할 수 없습니다.');
+            document.body.innerHTML = '<div style="text-align: center; padding: 50px; color: red;"><h2>로딩 오류</h2><p>Supabase 라이브러리를 로드할 수 없습니다. 인터넷 연결을 확인해 주세요.</p></div>';
+        }
+    </script>
     <script src="script.js"></script>
 </body>
 </html>

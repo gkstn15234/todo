@@ -1,7 +1,18 @@
 const SUPABASE_URL = 'https://qszjfktfylsvnkbupmkr.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFzempma3RmeWxzdm5rYnVwbWtyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM4MDI3MDUsImV4cCI6MjA2OTM3ODcwNX0.pQS-v8GRQEzB8_nAZ5GunyiKs2Pr_JxRX547fvq_2i4';
 
-const supabase = Supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+// Supabase 초기화 (전역 객체 확인)
+let supabaseClient;
+try {
+    if (typeof supabase !== 'undefined') {
+        supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    } else {
+        throw new Error('Supabase library not loaded');
+    }
+} catch (error) {
+    console.error('Supabase 초기화 실패:', error);
+    document.body.innerHTML = '<div style="text-align: center; padding: 50px; color: red;"><h2>초기화 오류</h2><p>Supabase를 초기화할 수 없습니다.</p></div>';
+}
 
 // DOM Elements
 const authSection = document.getElementById('auth-section');
@@ -49,7 +60,7 @@ function setButtonLoading(button, isLoading) {
 }
 
 async function handleAuthChange(event) {
-    const { data: { session } } = await supabase.auth.getSession();
+    const { data: { session } } = await supabaseClient.auth.getSession();
 
     if (session) {
         // User is logged in
@@ -77,7 +88,7 @@ async function handleAuthChange(event) {
 
 async function signUp(email, password) {
     try {
-        const { data, error } = await supabase.auth.signUp({
+        const { data, error } = await supabaseClientClient.auth.signUp({
             email: email,
             password: password,
         });
@@ -96,7 +107,7 @@ async function signUp(email, password) {
 
 async function signIn(email, password) {
     try {
-        const { data, error } = await supabase.auth.signInWithPassword({
+        const { data, error } = await supabaseClientClient.auth.signInWithPassword({
             email: email,
             password: password,
         });
@@ -115,7 +126,7 @@ async function signIn(email, password) {
 
 async function signOut() {
     try {
-        const { error } = await supabase.auth.signOut();
+        const { error } = await supabaseClient.auth.signOut();
         if (error) {
             showMessage(`로그아웃 실패: ${error.message}`, 'error');
         } else {
@@ -128,7 +139,7 @@ async function signOut() {
 
 async function fetchTodos() {
     todosList.innerHTML = ''; // Clear existing todos
-    const { data: todos, error } = await supabase
+    const { data: todos, error } = await supabaseClient
         .from('todos')
         .select('*')
         .order('id', { ascending: false });
@@ -145,7 +156,7 @@ async function fetchTodos() {
         const deleteBtn = document.createElement('button');
         deleteBtn.textContent = 'Delete';
         deleteBtn.onclick = async () => {
-            const { error } = await supabase
+            const { error } = await supabaseClient
                 .from('todos')
                 .delete()
                 .eq('id', todo.id);
@@ -161,7 +172,7 @@ async function fetchTodos() {
 }
 
 async function addTodo(task) {
-    const { data, error } = await supabase
+    const { data, error } = await supabaseClient
         .from('todos')
         .insert([{ task: task }]);
 
@@ -214,7 +225,7 @@ todoForm.addEventListener('submit', async (e) => {
 });
 
 // Initial check and listen for auth changes
-supabase.auth.onAuthStateChange((event, session) => {
+supabaseClient.auth.onAuthStateChange((event, session) => {
     handleAuthChange(event);
 });
 
