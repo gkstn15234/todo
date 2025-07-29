@@ -64,13 +64,8 @@ body {
 .user-info {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-}
-
-.user-avatar {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
+    font-weight: 500;
+    color: #374151;
 }
 
 .signout-btn {
@@ -625,55 +620,88 @@ body {
     animation: spin 1s linear infinite;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-    .main-content {
-        padding: 1rem;
-    }
-    
+/* Enhanced Mobile Optimization */
+@media (max-width: 1024px) {
     .header-content {
-        padding: 1rem;
+        padding: 1rem 1.5rem;
     }
     
-    .auth-container {
-        padding: 2rem;
-        margin: 1rem;
+    .logo h1 {
+        font-size: 1.25rem;
     }
     
-    .welcome-banner {
-        flex-direction: column;
-        gap: 1rem;
-        text-align: center;
+    .user-menu {
+        gap: 0.75rem;
     }
     
-    .stats {
-        justify-content: center;
-    }
-    
-    .time-inputs {
-        grid-template-columns: 1fr;
-    }
-    
-    .section-header {
-        flex-direction: column;
-        gap: 1rem;
-        align-items: flex-start;
-    }
-    
-    .todo-item {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 1rem;
-    }
-    
-    .todo-meta {
-        flex-wrap: wrap;
+    .signout-btn {
+        padding: 0.375rem 0.75rem;
+        font-size: 0.8rem;
     }
 }
 
-@media (max-width: 480px) {
-    .auth-buttons {
+@media (max-width: 768px) {
+    body {
+        font-size: 14px;
+    }
+    
+    .main-content {
+        padding: 0.75rem;
+    }
+    
+    .header-content {
+        padding: 0.75rem 1rem;
+        min-height: 60px;
+    }
+    
+    .logo {
         gap: 0.5rem;
+    }
+    
+    .logo i {
+        font-size: 1.5rem;
+    }
+    
+    .logo h1 {
+        font-size: 1.125rem;
+    }
+    
+    .user-info {
+        font-size: 0.875rem;
+    }
+    
+    .signout-btn {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.75rem;
+    }
+    
+    .signout-btn i {
+        display: none;
+    }
+    
+    /* Auth Section Mobile */
+    .auth-container {
+        padding: 1.5rem;
+        margin: 0.75rem;
+        max-width: 400px;
+    }
+    
+    .auth-header h2 {
+        font-size: 1.5rem;
+    }
+    
+    .auth-header p {
+        font-size: 0.9rem;
+    }
+    
+    .input-group input {
+        padding: 0.875rem 0.875rem 0.875rem 2.75rem;
+        font-size: 0.95rem;
+    }
+    
+    .input-icon {
+        left: 0.875rem;
+        font-size: 0.9rem;
     }
     
     .btn {
@@ -681,7 +709,300 @@ body {
         font-size: 0.95rem;
     }
     
+    /* Dashboard Mobile */
+    .welcome-banner {
+        flex-direction: column;
+        gap: 1.25rem;
+        text-align: center;
+        padding: 1.5rem;
+    }
+    
+    .welcome-content h2 {
+        font-size: 1.25rem;
+    }
+    
+    .current-date {
+        font-size: 0.9rem;
+    }
+    
+    .stats {
+        justify-content: center;
+        gap: 1.5rem;
+    }
+    
+    .stat-item {
+        gap: 0.5rem;
+    }
+    
+    .stat-item i {
+        font-size: 1.25rem;
+    }
+    
+    .stat-number {
+        font-size: 1.25rem;
+    }
+    
+    .stat-label {
+        font-size: 0.8rem;
+    }
+    
+    /* Add Todo Section Mobile */
+    .add-todo-section {
+        padding: 1.5rem;
+    }
+    
+    .input-with-icon input {
+        padding: 0.875rem 0.875rem 0.875rem 2.75rem;
+        font-size: 0.95rem;
+    }
+    
+    .time-inputs {
+        grid-template-columns: 1fr;
+        gap: 0.875rem;
+    }
+    
+    .time-input-group label,
+    .priority-group label {
+        font-size: 0.8rem;
+        font-weight: 600;
+    }
+    
+    .time-input-group input,
+    .priority-group select {
+        padding: 0.75rem;
+        font-size: 0.9rem;
+    }
+    
+    .add-btn {
+        width: 100%;
+        justify-content: center;
+        padding: 1rem;
+    }
+    
+    /* Todos Section Mobile */
+    .todos-section {
+        padding: 1.5rem;
+    }
+    
+    .section-header {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: stretch;
+    }
+    
+    .section-header h3 {
+        font-size: 1.125rem;
+        text-align: center;
+    }
+    
+    .filter-buttons {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    
+    .filter-btn {
+        padding: 0.5rem 0.875rem;
+        font-size: 0.8rem;
+        min-width: 60px;
+    }
+    
+    /* Todo Items Mobile */
+    .todo-item {
+        padding: 1.25rem;
+        gap: 0.875rem;
+        flex-direction: row;
+        align-items: flex-start;
+    }
+    
+    .todo-checkbox {
+        width: 18px;
+        height: 18px;
+        margin-top: 2px;
+        flex-shrink: 0;
+    }
+    
+    .todo-content {
+        flex: 1;
+        min-width: 0;
+    }
+    
+    .todo-task {
+        font-size: 0.95rem;
+        line-height: 1.4;
+        word-break: break-word;
+    }
+    
+    .todo-meta {
+        flex-direction: column;
+        gap: 0.5rem;
+        align-items: flex-start;
+        margin-top: 0.5rem;
+    }
+    
+    .todo-time {
+        font-size: 0.8rem;
+    }
+    
+    .priority-badge {
+        font-size: 0.7rem;
+        padding: 0.2rem 0.4rem;
+    }
+    
+    .todo-actions {
+        flex-shrink: 0;
+        margin-top: 2px;
+    }
+    
+    .action-btn {
+        width: 32px;
+        height: 32px;
+        font-size: 0.8rem;
+    }
+    
+    /* Empty State Mobile */
+    .empty-state {
+        padding: 2rem 1rem;
+    }
+    
+    .empty-state i {
+        font-size: 2.5rem;
+    }
+    
+    .empty-state h4 {
+        font-size: 1.125rem;
+    }
+    
+    .empty-state p {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .main-content {
+        padding: 0.5rem;
+    }
+    
+    .header-content {
+        padding: 0.75rem;
+    }
+    
+    .logo h1 {
+        font-size: 1rem;
+    }
+    
+    .user-info {
+        font-size: 0.8rem;
+        max-width: 120px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    
+    .signout-btn {
+        padding: 0.375rem 0.5rem;
+        font-size: 0.7rem;
+    }
+    
+    /* Compact Auth */
+    .auth-container {
+        padding: 1.25rem;
+        margin: 0.5rem;
+    }
+    
+    .auth-header {
+        margin-bottom: 1.5rem;
+    }
+    
+    .auth-header h2 {
+        font-size: 1.375rem;
+    }
+    
+    .auth-buttons {
+        gap: 0.75rem;
+    }
+    
+    /* Compact Dashboard */
+    .welcome-banner,
+    .add-todo-section,
+    .todos-section {
+        padding: 1.25rem;
+        margin-bottom: 1rem;
+    }
+    
+    .welcome-content h2 {
+        font-size: 1.125rem;
+    }
+    
+    .stats {
+        gap: 1.25rem;
+    }
+    
+    /* Compact Todo Form */
+    .time-inputs {
+        gap: 0.75rem;
+    }
+    
+    .time-input-group label,
+    .priority-group label {
+        font-size: 0.75rem;
+    }
+    
+    /* Ultra Compact Todo Items */
     .todo-item {
         padding: 1rem;
+        gap: 0.75rem;
+    }
+    
+    .todo-task {
+        font-size: 0.9rem;
+    }
+    
+    .todo-time {
+        font-size: 0.75rem;
+    }
+    
+    .priority-badge {
+        font-size: 0.65rem;
+        padding: 0.15rem 0.35rem;
+    }
+    
+    .action-btn {
+        width: 28px;
+        height: 28px;
+        font-size: 0.75rem;
+    }
+    
+    /* Message Mobile */
+    .message {
+        padding: 0.875rem;
+        font-size: 0.9rem;
+        margin-bottom: 0.875rem;
+    }
+}
+
+/* Touch-friendly improvements */
+@media (hover: none) and (pointer: coarse) {
+    .btn,
+    .filter-btn,
+    .action-btn,
+    .todo-checkbox {
+        min-height: 44px;
+        min-width: 44px;
+    }
+    
+    .signout-btn {
+        min-height: 40px;
+    }
+    
+    .todo-checkbox {
+        width: 22px;
+        height: 22px;
+    }
+    
+    .input-group input,
+    .input-with-icon input,
+    .time-input-group input,
+    .priority-group select {
+        min-height: 44px;
     }
 }

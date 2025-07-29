@@ -19,7 +19,6 @@
                 </div>
                 <div class="user-menu" id="user-menu" style="display: none;">
                     <div class="user-info">
-                        <img src="https://via.placeholder.com/32/4F46E5/ffffff?text=U" alt="User" class="user-avatar">
                         <span id="user-email-header"></span>
                     </div>
                     <button id="signout-btn" class="signout-btn">
@@ -109,18 +108,18 @@
                             <div class="time-inputs">
                                 <div class="time-input-group">
                                     <label for="start-time">시작 시간</label>
-                                    <input type="time" id="start-time" step="300">
+                                    <input type="time" id="start-time" step="60">
                                 </div>
                                 <div class="time-input-group">
                                     <label for="end-time">종료 시간</label>
-                                    <input type="time" id="end-time" step="300">
+                                    <input type="time" id="end-time" step="60">
                                 </div>
                                 <div class="priority-group">
                                     <label for="priority">우선순위</label>
                                     <select id="priority">
-                                        <option value="low">낮음</option>
-                                        <option value="medium" selected>보통</option>
-                                        <option value="high">높음</option>
+                                        <option value="low">🟢 낮음</option>
+                                        <option value="medium" selected>🟡 보통</option>
+                                        <option value="high">🔴 높음</option>
                                     </select>
                                 </div>
                             </div>

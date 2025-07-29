@@ -374,7 +374,7 @@ function renderTodos() {
                         </div>
                     ` : ''}
                     <div class="priority-badge priority-${todo.priority}">
-                        ${todo.priority === 'high' ? '높음' : todo.priority === 'medium' ? '보통' : '낮음'}
+                        ${todo.priority === 'high' ? '🔴 높음' : todo.priority === 'medium' ? '🟡 보통' : '🟢 낮음'}
                     </div>
                 </div>
             </div>
