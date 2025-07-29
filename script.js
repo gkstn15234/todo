@@ -21,8 +21,33 @@ const userIdSpan = document.getElementById('user-id');
 const todoForm = document.getElementById('todo-form');
 const todoInput = document.getElementById('todo-input');
 const todosList = document.getElementById('todos-list');
+const messageDiv = document.getElementById('message');
 
 // Functions
+function showMessage(text, type = 'info') {
+    messageDiv.textContent = text;
+    messageDiv.className = `message ${type}`;
+    setTimeout(() => {
+        messageDiv.textContent = '';
+        messageDiv.className = 'message';
+    }, 5000);
+}
+
+function setButtonLoading(button, isLoading) {
+    const btnText = button.querySelector('.btn-text');
+    const loadingText = button.querySelector('.loading');
+    
+    if (isLoading) {
+        btnText.style.display = 'none';
+        loadingText.style.display = 'inline';
+        button.disabled = true;
+    } else {
+        btnText.style.display = 'inline';
+        loadingText.style.display = 'none';
+        button.disabled = false;
+    }
+}
+
 async function handleAuthChange(event) {
     const { data: { session } } = await supabase.auth.getSession();
 
@@ -51,35 +76,53 @@ async function handleAuthChange(event) {
 }
 
 async function signUp(email, password) {
-    const { data, error } = await supabase.auth.signUp({
-        email: email,
-        password: password,
-    });
-    if (error) {
-        alert(error.message);
-    } else {
-        alert('Sign up successful! Please check your email for verification.');
+    try {
+        const { data, error } = await supabase.auth.signUp({
+            email: email,
+            password: password,
+        });
+        
+        if (error) {
+            showMessage(`회원가입 실패: ${error.message}`, 'error');
+        } else {
+            showMessage('회원가입 성공! 이메일을 확인해 주세요.', 'success');
+            emailInput.value = '';
+            passwordInput.value = '';
+        }
+    } catch (err) {
+        showMessage('네트워크 오류가 발생했습니다. 다시 시도해 주세요.', 'error');
     }
 }
 
 async function signIn(email, password) {
-    const { data, error } = await supabase.auth.signInWithPassword({
-        email: email,
-        password: password,
-    });
-    if (error) {
-        alert(error.message);
-    } else {
-        alert('Signed in successfully!');
+    try {
+        const { data, error } = await supabase.auth.signInWithPassword({
+            email: email,
+            password: password,
+        });
+        
+        if (error) {
+            showMessage(`로그인 실패: ${error.message}`, 'error');
+        } else {
+            showMessage('로그인 성공!', 'success');
+            emailInput.value = '';
+            passwordInput.value = '';
+        }
+    } catch (err) {
+        showMessage('네트워크 오류가 발생했습니다. 다시 시도해 주세요.', 'error');
     }
 }
 
 async function signOut() {
-    const { error } = await supabase.auth.signOut();
-    if (error) {
-        alert(error.message);
-    } else {
-        alert('Signed out successfully!');
+    try {
+        const { error } = await supabase.auth.signOut();
+        if (error) {
+            showMessage(`로그아웃 실패: ${error.message}`, 'error');
+        } else {
+            showMessage('로그아웃되었습니다.', 'success');
+        }
+    } catch (err) {
+        showMessage('네트워크 오류가 발생했습니다.', 'error');
     }
 }
 
@@ -135,11 +178,28 @@ authForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const email = emailInput.value;
     const password = passwordInput.value;
+    const button = e.submitter;
 
-    if (e.submitter.id === 'signup-btn') {
-        await signUp(email, password);
-    } else if (e.submitter.id === 'signin-btn') {
-        await signIn(email, password);
+    if (!email || !password) {
+        showMessage('이메일과 비밀번호를 모두 입력해 주세요.', 'error');
+        return;
+    }
+
+    if (password.length < 6) {
+        showMessage('비밀번호는 최소 6자 이상이어야 합니다.', 'error');
+        return;
+    }
+
+    setButtonLoading(button, true);
+    
+    try {
+        if (button.id === 'signup-btn') {
+            await signUp(email, password);
+        } else if (button.id === 'signin-btn') {
+            await signIn(email, password);
+        }
+    } finally {
+        setButtonLoading(button, false);
     }
 });
 
